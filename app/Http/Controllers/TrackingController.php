@@ -44,7 +44,9 @@ public function destroy($id)
     $tracking = Tracking::findOrFail($id)->delete();
 
     // SPA-friendly response: no page reload, no redirect
-    return response()->json(['success' => true]);
+    return inertia('Tracking', [
+        'success' => true,
+    ]);
 }
 
 
