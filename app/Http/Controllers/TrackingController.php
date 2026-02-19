@@ -16,35 +16,35 @@ class TrackingController extends Controller
     }
 
     public function store(Request $request)
-{
-    $data = $request->validate([
-        'tracking_number' => 'required',
-        'customer_name'   => 'required',
-        'status'          => 'required',
-    ]);
+    {
+        $data = $request->validate([
+            'tracking_number' => 'required',
+            'customer_name'   => 'required',
+            'status'          => 'required',
+        ]);
 
-    Tracking::create($data);
+        Tracking::create($data);
 
-    return redirect()->back()->setStatusCode(303);
-}
+        return redirect()->back()->setStatusCode(303);
+    }
 
-public function update(Request $request, Tracking $tracking)
-{
-    $data = $request->validate([
-        'tracking_number' => 'required',
-        'customer_name'   => 'required',
-        'status'          => 'required',
-    ]);
+    public function update(Request $request, Tracking $tracking)
+    {
+        $data = $request->validate([
+            'tracking_number' => 'required',
+            'customer_name'   => 'required',
+            'status'          => 'required',
+        ]);
 
-    $tracking->update($data);
+        $tracking->update($data);
 
-    return redirect()->back()->setStatusCode(303);
-}
+        return redirect()->back()->setStatusCode(303);
+    }
 
-public function destroy(Tracking $tracking)
-{
-    $tracking->delete();
+    public function destroy(Tracking $tracking)
+    {
+        $tracking->delete();
 
-    return redirect()->back()->setStatusCode(303);
+        return redirect()->back()->setStatusCode(303);
     }
 }
