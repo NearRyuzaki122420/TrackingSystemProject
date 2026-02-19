@@ -11,48 +11,40 @@ class TrackingController extends Controller
     public function index()
     {
         return Inertia::render('Tracking', [
-            'trackings' => Tracking::latest()->get()
+            'trackings' => Tracking::latest()->get(),
         ]);
     }
 
     public function store(Request $request)
-    {
-        Tracking::create($request->validate([
-            'tracking_number' => 'required',
-            'customer_name' => 'required',
-            'status' => 'required',
-        ]));
-
-        return redirect()->back();
-    }
-
-    public function update(Request $request, $id)
-    {
-        $tracking = Tracking::findOrFail($id);
-
-        $tracking->update($request->validate([
-            'tracking_number' => 'required',
-            'customer_name' => 'required',
-            'status' => 'required',
-        ]));
-
-        return redirect()->back();
-    }
-
-public function destroy($id)
 {
-    $tracking = Tracking::findOrFail($id)->delete();
+    $data = $request->validate([
+        'tracking_number' => 'required',
+        'customer_name'   => 'required',
+        'status'          => 'required',
+    ]);
 
-    // SPA-friendly response: no page reload, no redirect
-    return response()->json(['success' => true]);
+    Tracking::create($data);
+
+    return redirect()->back()->setStatusCode(303);
 }
 
-
-
-    public function show($id)
+public function update(Request $request, Tracking $tracking)
 {
-    $tracking = Tracking::findOrFail($id);
-    return Inertia::render('TrackingShow', ['tracking' => $tracking]);
+    $data = $request->validate([
+        'tracking_number' => 'required',
+        'customer_name'   => 'required',
+        'status'          => 'required',
+    ]);
+
+    $tracking->update($data);
+
+    return redirect()->back()->setStatusCode(303);
 }
 
+public function destroy(Tracking $tracking)
+{
+    $tracking->delete();
+
+    return redirect()->back()->setStatusCode(303);
+    }
 }
